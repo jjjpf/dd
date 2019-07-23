@@ -1,0 +1,186 @@
+import numpy as np
+from pulp import LpProblem, LpVariable, LpConstraint, LpConstraintLE, LpConstraintGE, LpMaximize, LpBinary, LpStatus,LpInteger
+
+
+def hanshu1():
+    min_coe_z = - np.array([100, 600, 1200, 2400, 500, 2000])
+     coe_st_ub = np.array([[8, 12, 13, 64, 22, 41], [8, 12, 13, 75, 22, 41], [3, 6, 4, 18, 6, 4], [5, 10, 8, 32, 6, 12],
+                          [5, 13, 8, 42, 6, 20], [5, 13, 8, 48, 6, 20], [0, 0, 0, 0, 8, 0], [3, 0, 4, 0, 8, 0],
+                          [3, 2, 4, 0, 8, 4], [3, 2, 4, 8, 8, 4], [1, 1, 1, 1, 1, 1],[100, 600, 1200, 2400, 500, 2000]])
+    value_st_ub = np.array([80, 96, 20, 36, 44, 48, 10, 18, 22, 24, 6,3800])
+    m = LpProblem(name="MIP Model", sense=LpMaximize)
+    h1 = LpVariable("h1", lowBound=0, cat=LpInteger)
+    h2 = LpVariable("h2", lowBound=0, cat=LpInteger)
+    h3 = LpVariable("h3", lowBound=0, cat=LpInteger)
+    h4 = LpVariable("h4", lowBound=0, cat=LpInteger)
+    h5 = LpVariable("h5", lowBound=0, cat=LpInteger)
+    h6 = LpVariable("h6", lowBound=0, cat=LpInteger)
+    a=['x0','x1','x2','x3','x4','x5','x6','x7','x8','x9','x10','x11']
+    for i in range(0,len(coe_st_ub)):
+        data=coe_st_ub[i]
+        print(data)
+        aa=a[i]
+        k+= LpConstraint(e=(data[0] * x1 + data[1] * x2 + data[2] * x3 + data[3] * x4 + data[4] * x5 + x6 * data[5]), sense=LpConstraintLE, rhs=value_st_ub[i],
+                      name=aa)
+        print(k)
+    m.setObjective(-min_coe_z[0]*x1-min_coe_z[1]*x2-min_coe_z[2]*x3-min_coe_z[3]*x4-min_coe_z[4]*x5-min_coe_z[5]*x6)
+    status = k.solve()
+    if LpStatus[status] == 'Optimal':
+
+        for v in k.variables():
+            print('%s %g' % (v.name, v.varValue))
+    print('Obj: %g' % k.objective.value())
+
+#Second*********************************************************************************************************************************************
+def hanshu2():
+    min_coe_z = - np.array([600.1, 310.5, 1800 ,3850 ,18.6 ,198.7 ,882 ,4200 ,402.5 ,327])
+    coe_st_ub = np.array([[20 ,5 ,100,200 ,2 ,4 ,60, 150, 80, 40],[20, 7 ,130 ,280 ,2, 8, 110, 210 ,100, 40],
+                          [60,3 ,50 ,100 ,4 ,2, 20, 40, 6, 12],[60 ,8, 70 ,200 ,4 ,6 ,40 ,70, 16 ,20],
+                          [60, 13, 70 ,250, 4 ,10 ,60 ,90 ,20 ,24],[60, 13, 70 ,280, 4, 10, 70 ,105 ,22 ,28],
+                          [5,2, 20, 100, 2, 5 ,10 ,60, 0, 0],[45, 14 ,80, 180, 6 ,10, 40, 100, 20, 0],
+                          [55 ,14, 80, 200, 6 ,10 ,50, 140, 30,40 ],[65,14,80,220,6,10,50,180,30,50 ],
+                          [600.1, 310.5, 1800 ,3850 ,18.6 ,198.7 ,882 ,4200 ,402.5 ,327],[1,1,1,1,1,1,1,1,1,1]])
+    value_st_ub = np.array([450, 540 ,200 ,360, 440, 480 ,200 ,360 ,440, 480,8706.1,10])
+    m = LpProblem(name="MIP Model", sense=LpMaximize)
+    h1 = LpVariable("h1", lowBound=0, cat=LpInteger)
+    h2 = LpVariable("h2", lowBound=0, cat=LpInteger)
+    h3 = LpVariable("h3", lowBound=0, cat=LpInteger)
+    h4 = LpVariable("h4", lowBound=0, cat=LpInteger)
+    h5 = LpVariable("h5", lowBound=0, cat=LpInteger)
+    h6 = LpVariable("h6", lowBound=0, cat=LpInteger)
+    h7 = LpVariable("h7", lowBound=0, cat=LpInteger)
+    h8 = LpVariable("h8", lowBound=0, cat=LpInteger)
+    h9 = LpVariable("h9", lowBound=0, cat=LpInteger)
+    h10 = LpVariable("h10", lowBound=0, cat=LpInteger)
+    a = ['x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11']
+    for i in range(0, len(coe_st_ub)):
+        data = coe_st_ub[i]
+        aa = a[i]
+        k+= LpConstraint(e=(data[0] * x1 + data[1] * x2 + data[2] * x3 + data[3] * x4 + data[4] * x5 + x6 * data[5]+x7*data[6]+x8*data[7]+x9*data[8]+x10*data[9]),
+                          sense=LpConstraintLE, rhs=value_st_ub[i],
+                          name=aa)
+        print(k)
+    k.setObjective(
+        -min_coe_z[0] * x1 - min_coe_z[1] * x2 - min_coe_z[2] * x3 - min_coe_z[3] * x4 - min_coe_z[4] * x5 - min_coe_z[
+            5] * x6-min_coe_z[6]*x7-min_coe_z[7]*x8-min_coe_z[8]*x9-min_coe_z[9]*x10)
+    status = k.solve()
+
+    if LpStatus[status] == 'Optimal':
+
+        for v in k.variables():
+            print('%s %g' % (v.name, v.varValue))
+    print('Obj: %g' % k.objective.value())
+
+#Third***********************************************************************************************************************************************
+def hanshu3():
+    min_coe_z = - np.array([100, 220, 90 ,400 ,300, 400, 205, 120, 160, 580, 400, 140, 100 ,1300, 650])
+    coe_st_ub = np.array([ [8 ,24 ,13, 80 ,70, 80, 45 ,15 ,28 ,90, 130, 32, 20, 120 ,40],[8, 44, 13 ,100 ,100 ,90 ,75 ,25 ,28 ,120, 130 ,32, 40, 160, 40],
+                           [3 ,6 ,4 ,20, 20, 30, 8, 3 ,12 ,14, 40, 6 ,3, 20, 5],[5, 9, 6, 40, 30 ,40 ,16, 5 ,18, 24 ,60, 16 ,11, 30 ,25],
+                           [5 ,11 ,7 ,50, 40, 40, 19, 7 ,18 ,29 ,70 ,21, 17 ,30, 25],[ 5 ,11, 7 ,55, 40, 40, 21, 9 ,18, 29 ,70, 21, 17, 35 ,25],
+                           [0, 0, 1, 10 ,4 ,10 ,0, 6 ,0 ,6, 32, 3, 0, 70, 10],[3, 4 ,5 ,20, 14, 20, 6 ,12, 10 ,18, 42, 9 ,12 ,100, 20],
+                           [3 ,6, 9 ,30 ,29, 20, 12, 12 ,10, 30 ,42 ,18, 18, 110, 20],[3 ,8 ,9 ,35 ,29, 20 ,16, 15 ,10, 30, 42, 20 ,18, 120, 20],
+                           [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[100, 220, 90 ,400 ,300, 400, 205, 120, 160, 580, 400, 140, 100 ,1300, 650]])
+    m = LpProblem(name="MIP Model", sense=LpMaximize)
+    h1 = LpVariable("h1", lowBound=0, cat=LpInteger)
+    h2 = LpVariable("h2", lowBound=0, cat=LpInteger)
+    h3 = LpVariable("h3", lowBound=0, cat=LpInteger)
+    h4 = LpVariable("h4", lowBound=0, cat=LpInteger)
+    h5 = LpVariable("h5", lowBound=0, cat=LpInteger)
+    h6 = LpVariable("h6", lowBound=0, cat=LpInteger)
+    h7 = LpVariable("h7", lowBound=0, cat=LpInteger)
+    h8 = LpVariable("h8", lowBound=0, cat=LpInteger)
+    h9 = LpVariable("h9", lowBound=0, cat=LpInteger)
+    h10 = LpVariable("h10", lowBound=0, cat=LpInteger)
+    h11 = LpVariable("h11", lowBound=0, cat=LpInteger)
+    h12 = LpVariable("h12", lowBound=0, cat=LpInteger)
+    h13 = LpVariable("h13", lowBound=0, cat=LpInteger)
+    h14 = LpVariable("h14", lowBound=0, cat=LpInteger)
+    h15 = LpVariable("h15", lowBound=0, cat=LpInteger)
+    a = ['x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11']
+    value_st_ub=[550, 700, 130 ,240 ,280 ,310 ,110, 205, 260 ,275,15,4015]
+    for i in range(0, len(coe_st_ub)):
+        data = coe_st_ub[i]
+        aa = a[i]
+        k += LpConstraint(e=(
+        data[0] * x1 + data[1] * x2 + data[2] * x3 + data[3] * x4 + data[4] * x5 + x6 * data[5] + x7 * data[6] + x8 *
+        data[7] + x9 * data[8] + x10 * data[9]+x11*data[10]+x12*data[11]+x13*data[12]+x14*data[13]+x15*data[14]),
+                          sense=LpConstraintLE, rhs=value_st_ub[i],
+                          name=aa)
+    print(k)
+    k.setObjective(
+        -min_coe_z[0] * x1 - min_coe_z[1] * x2 - min_coe_z[2] * x3 - min_coe_z[3] * x4 - min_coe_z[4] * x5 - min_coe_z[
+            5] * x6 - min_coe_z[6] * x7 - min_coe_z[7] * x8 - min_coe_z[8] * x9 - min_coe_z[9] * x10-min_coe_z[10]*x11-
+        min_coe_z[11]*x12-min_coe_z[12]*x13-min_coe_z[13]*x14-min_coe_z[14]*x15)
+    status = k.solve()
+    if LpStatus[status] == 'Optimal':
+
+        for v in m.variables():
+            print('%s %g' % (v.name, v.varValue))
+    print('Obj: %g' % k.objective.value())
+
+
+#Fourth***********************************************************************************************************************************************
+def hanshu4():
+    min_coe_z = - np.array([100, 220,90 ,400 ,300, 400, 205, 120, 160 ,580 ,400, 140 ,100 ,1300, 650,320, 480, 80, 60, 2550 ])
+    coe_st_ub = np.array([[8,24,13, 80, 70, 80, 45, 15, 28, 90, 130 ,32, 20, 120, 40, 30 ,20, 6, 3 ,180],
+                          [8, 44, 13 ,100 ,100, 90, 75, 25, 28 ,120, 130 ,32, 40, 160 ,40 ,60 ,55, 10, 6 ,240],
+                          [3 ,6 ,4, 20 ,20 ,30, 8, 3, 12, 14, 40, 6, 3, 20, 5,0 ,5 ,3, 0, 20],
+                          [5, 9 ,6, 40, 30, 40, 16 ,5 ,18, 24, 60 ,16, 11, 30 ,25,10, 13, 5, 1, 80],
+                          [5 ,11 ,7, 50 ,40, 40, 19, 7 ,18 ,29, 70, 21, 17, 30, 25, 15, 25 ,5, 1, 100],
+                          [5 ,11, 7, 55 ,40, 40 ,21, 9 ,18, 29 ,70, 21, 17, 35 ,25,20 ,25, 5, 2, 110],
+                          [0 ,0 ,1, 10, 4, 10 ,0 ,6 ,0 ,6 ,32 ,3 ,0 ,70 ,10 ,0 ,0 ,0, 0 ,0],
+                          [3, 4 ,5, 20, 14 ,20, 6 ,12, 10, 18 ,42, 9 ,12 ,100, 20,5 ,6 ,4,1 ,20],
+                          [3, 6, 9 ,30 ,29 ,20, 12, 12, 10 ,30, 42,18 ,18, 110 ,20,15 ,18 ,7 ,2, 40],
+                          [3 ,8, 9 ,35, 29, 20, 16, 15 ,10, 30, 42, 20, 18 ,120 ,20, 20, 22, 7, 3 ,50],
+                          [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1,1,1,1,1],
+                          [100 ,220, 90, 400, 300, 400, 205 ,120 ,160 ,580, 400, 140, 100, 1300, 650,320 ,480 ,80 ,60 ,2550]])
+    m = LpProblem(name="MIP Model", sense=LpMaximize)
+    h1 = LpVariable("h1", lowBound=0, cat=LpInteger)
+    h2 = LpVariable("h2", lowBound=0, cat=LpInteger)
+    h3 = LpVariable("h3", lowBound=0, cat=LpInteger)
+    h4 = LpVariable("h4", lowBound=0, cat=LpInteger)
+    h5 = LpVariable("h5", lowBound=0, cat=LpInteger)
+    h6 = LpVariable("h6", lowBound=0, cat=LpInteger)
+    h7 = LpVariable("h7", lowBound=0, cat=LpInteger)
+    h8 = LpVariable("h8", lowBound=0, cat=LpInteger)
+    h9 = LpVariable("h9", lowBound=0, cat=LpInteger)
+    h10 = LpVariable("h10", lowBound=0, cat=LpInteger)
+    h11 = LpVariable("h11", lowBound=0, cat=LpInteger)
+    h12 = LpVariable("h12", lowBound=0, cat=LpInteger)
+    h13 = LpVariable("h13", lowBound=0, cat=LpInteger)
+    h14 = LpVariable("h14", lowBound=0, cat=LpInteger)
+    h15 = LpVariable("h15", lowBound=0, cat=LpInteger)
+    h16 = LpVariable("h16", lowBound=0, cat=LpInteger)
+    h17 = LpVariable("h17", lowBound=0, cat=LpInteger)
+    h18 = LpVariable("h18", lowBound=0, cat=LpInteger)
+    h19 = LpVariable("h19", lowBound=0, cat=LpInteger)
+    h20 = LpVariable("h20", lowBound=0, cat=LpInteger)
+    a = ['x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11']
+    value_st_ub=[550, 700, 130 ,240 ,280 ,310 ,110, 205, 260 ,275, 20,6120]
+    for i in range(0, len(coe_st_ub)):
+        data = coe_st_ub[i]
+        aa = a[i]
+        k += LpConstraint(e=(
+        data[0] * x1 + data[1] * x2 + data[2] * x3 + data[3] * x4 + data[4] * x5 + x6 * data[5] + x7 * data[6] + x8 *
+        data[7] + x9 * data[8] + x10 * data[9]+x11*data[10]+x12*data[11]+x13*data[12]+x14*data[13]+data[14]*x15+
+        data[15]*x16+data[16]*x17+data[17]*x18+data[18]*x19+data[19]*x20),
+                          sense=LpConstraintLE, rhs=value_st_ub[i],
+                          name=aa)
+    print(k)
+    m.setObjective(
+        -min_coe_z[0] * x1 - min_coe_z[1] * x2 - min_coe_z[2] * x3 - min_coe_z[3] * x4 - min_coe_z[4] * x5 - min_coe_z[
+            5] * x6 - min_coe_z[6] * x7 - min_coe_z[7] * x8 - min_coe_z[8] * x9 - min_coe_z[9] * x10-min_coe_z[10]*x11-
+        min_coe_z[11]*x12-min_coe_z[12]*x13-min_coe_z[13]*x14-min_coe_z[14]*x15-min_coe_z[15]*x16-min_coe_z[16]*x17-
+        min_coe_z[17]*x18-min_coe_z[18]*x19-min_coe_z[19]*x20)
+    status = k.solve()
+    if LpStatus[status] == 'Optimal':
+
+        for v in k.variables():
+            print('%s %g' % (v.name, v.varValue))
+    print('Obj: %g' % m.objective.value())
+
+if __name__ == '__main__':
+    dynamic1()
+    dynamic2()
+    dynamic3()
+    dynamic4()
