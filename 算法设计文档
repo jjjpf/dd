@@ -1,10 +1,15 @@
-思路：看看
-每个背包里面有价值，有相应的约束条件，还有相应的属性。我们要把每个背包的值求出来，在比较最值得到我们想要的结果。
-背包问题大部分都是类似模样的状态转移方程dp[j]=dp[j]>(dp[j-t]+v)?dp[j]:(dp[j-t]+v);
-具体的过程：
-import numpy as np
-from pulp import LpProblem, LpVariable, LpConstraint, LpConstraintLE, LpConstraintGE, LpMaximize, LpBinary, LpStatus,LpInteger
+  从拿到题目开始，我就对题目进行仔细的分析，有许许多多的文件，文件里面包含了多个测试问体。我复习了书本中有关多维背包问体的思想，上网查找相关的学习资料，
+得到了解题的套路，进行了算法设计。
 
+思路：
+  1.每个背包里面有价值，有相应的约束条件，还有相应的属性。我们要把每个背包的值求出来，在比较最值得到我们想要的结果。
+  2.背包问题大部分都是类似模样的状态转移方程dp[j]=dp[j]>(dp[j-t]+v)?dp[j]:(dp[j-t]+v);
+  3.我们要定义一个类，把一个背包的属性，的价值，与他相关的，定义在类里面，把他求出来。后面不同的背包方法相似。
+  4.用代码实现算法的过程中有，要注意细节，不然容易发生错误。
+代码执行过程和详细的解析：
+import numpy as np//引用numpy这个包
+from pulp import LpProblem, LpVariable, LpConstraint, LpConstraintLE, LpConstraintGE, LpMaximize, LpBinary, LpStatus,LpInteger
+//引用pulp这个包
 
 def hanshu1()//定义一个类，把背包里面的价值，属性，约束条件用数组接受。
     min_coe_z = - np.array([100, 600, 1200, 2400, 500, 2000])//价值
@@ -27,6 +32,7 @@ def hanshu1()//定义一个类，把背包里面的价值，属性，约束条�
         k+= LpConstraint(e=(data[0] * x1 + data[1] * x2 + data[2] * x3 + data[3] * x4 + data[4] * x5 + x6 * data[5]), sense=LpConstraintLE, rhs=value_st_ub[i],
                       name=aa)
         print(k)
+        //比较大小
     m.setObjective(-min_coe_z[0]*x1-min_coe_z[1]*x2-min_coe_z[2]*x3-min_coe_z[3]*x4-min_coe_z[4]*x5-min_coe_z[5]*x6)//进行大小比较
     status = k.solve()
     if LpStatus[status] == 'Optimal':
@@ -183,11 +189,19 @@ def hanshu4():
             print('%s %g' % (v.name, v.varValue))
     print('Obj: %g' % m.objective.value())
 
-if __name__ == '__main__':
+if __name__ == '__main__'://定义一个主类，调用输出
     dynamic1()
     dynamic2()
     dynamic3()
     dynamic4()
     
-      从拿到题目，到完成作业这个过程。我学到了许多东西，我查了许多的资料，怎样把现实中的想法运用到算法及程序中去，在这个过程中我得到了很多的锻炼，
-      在以后的学习生活中我会铭记老师的教诲，努力学习，用老师教的思维去想问题。
+   设计中遇到的困难：
+    1.算法的复杂性分析，运用到的循环较多，不好把握
+    2.算法设计的过程中，总会遇到许多基础知识不理解，不会用的问题。
+    3.算法与代码相结合的时候，出现运行错误
+    4.修改代码的能力不足
+    设计总结：
+     从拿到题目，到完成作业这个过程。我学到了许多东西，我查了许多的资料，怎样把现实中的想法运用到算法及程序中去，在这个过程中我得到了很多的锻炼，
+   在以后的学习生活中我会铭记老师的教诲，努力学习，用老师教的思维去想问题。最主要的是学会学习的方法，还有思考的方式。
+   老师教给了我们独特的学习方式和思考方式，在我们以后的学习道路上受益匪浅，感谢老师的悉心教导。以后我会，好好学习，天天向上
+
